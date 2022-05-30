@@ -4,5 +4,5 @@
         tasks: 
           -     name: copy war onto tomcat server
                 copy:
-                  src: /var/lib/jenkins/workspace/credit/target/ps-0.0.1-SNAPSHOT.jar
-                  dest: /opt/apache-tomcat-8.5.78/webapps/webapp/
+                  src: /opt/playbooks/webapp/target/webapp.war
+                  dest: /opt/apache-tomcat-8.5.78/webapps
