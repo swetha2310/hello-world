@@ -4,5 +4,5 @@
         tasks: 
           -     name: copy war onto tomcat server
                 copy:
-                  src: /opt/playbooks/webapp/target/webapp.war
-                  dest: /opt/apache-tomcat-8.5.78/webapps
+                  src: /Pipeline_Job/webapp/target/webapp.war
+                  dest: /opt/apache-tomcat-8.5.85/webapps
