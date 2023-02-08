@@ -9,7 +9,7 @@
   <version>1.0.0</version>
   <name>Maven Project</name>
   <description>Sample Maven project with a working, deployable site.</description>
-  <url>http://localhost:8080/</url>
+  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
@@ -22,17 +22,11 @@
   </modules>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>nexusRepo</id>
-      <name>sample-snapshot</name>
-      <url>http://43.205.114.91:8081/repository/sample-snapshot/</url>
-    </snapshotRepository>
-           
-    <repository>
-      <id>nexusRepo</id>
-      <name>sample-release</name>
-      <url>http://43.205.114.91:8081/repository/sample-release/</url>
-      </repository>
+    <site>
+      <id>site-server</id>
+      <name>Test Project Site</name>
+      <url>file:///tmp/maven-project-site</url>
+    </site>
   </distributionManagement>
 
   <build>
