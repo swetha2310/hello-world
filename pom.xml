@@ -9,7 +9,7 @@
   <version>1.0.0</version>
   <name>Maven Project</name>
   <description>Sample Maven project with a working, deployable site.</description>
-  <url>http://3.7.248.56:8080/</url>
+  <url>http://13.235.68.198:8080/</url>
 
   <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
