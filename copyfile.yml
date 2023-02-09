@@ -2,15 +2,7 @@
 -       hosts: [tomcat]
         become: true
         tasks: 
-           - name: stop Tomcat
-             shell: ./shutdown.sh
-             args:
-              chdir: /opt/apache-tomcat-8.5.85/bin
-           - name: Run Tomcat
-             shell: ./startup.sh
-             args:
-              chdir: /opt/apache-tomcat-8.5.85/bin
-           - name: copy war onto tomcat server
+          -     name: copy war onto tomcat server
                 copy:
                   src: /webapp/target/webapp.war
                   dest: /opt/apache-tomcat-8.5.85/webapps
