@@ -14,7 +14,7 @@ pipeline {
                 sh "mvn clean install"
             }
         }
-        stage('Code Quality Analysis') {
+        stage('Code Quality Analysis'){
 //    def scannerHome = tool 'SonarScanner 4.0';
             steps{
               withSonarQubeEnv('sonarqube-8.9.2') { 
@@ -24,7 +24,7 @@ pipeline {
               }
             }
         }
-        stage("Deploy war using Ansible") {
+        stage("Deploy war using Ansible"){
             steps{
                 /*sh "pwd"
                 #sh "cd /usr/bin/ansible-ws"
@@ -53,12 +53,12 @@ pipeline {
                 version: '1.0.0'
            }
         }
-        stage('Dependency Check') {
+        stage('Dependency Check'){
             steps {
                 dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'DP-check'
             }
         }
-        stage('OWASP DAST') {
+        stage('OWASP DAST'){
             steps {
                 sh '''
                 sudo service docker start
