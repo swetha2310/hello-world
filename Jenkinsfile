@@ -61,6 +61,7 @@ pipeline {
         stage('OWASP DAST') {
             steps {
                 sh '''
+                sudo service docker start
                 docker pull owasp/zap2docker-stable
                 docker run -dt --name owasp owasp/zap2docker-stable sh
                 docker exec owasp mkdir /zap/wrk
