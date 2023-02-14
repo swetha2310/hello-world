@@ -24,7 +24,7 @@ pipeline {
               }
             }
         }
-        stage("Deploy war using Ansible"){
+        stage("Deploy war using Ansible") {
             steps{
                 /*sh "pwd"
                 #sh "cd /usr/bin/ansible-ws"
@@ -58,7 +58,7 @@ pipeline {
                 dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'DP-check'
             }
         }
-        stage('OWASP DAST'){
+        stage('OWASP DAST') {
             steps {
                 sh '''
                 sudo service docker start
