@@ -58,7 +58,7 @@ pipeline {
                 dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'DP-check'
             }
         }
-        stage('OWASP DAST') {
+        stage('OWASP DAST'){
             steps {
                 sh '''
                 sudo service docker start
