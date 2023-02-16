@@ -9,11 +9,6 @@ pipeline {
                 git credentialsId: 'git_credentials', url: 'https://github.com/swetha2310/hello-world.git', branch:'master'
             }
         }
-        stage("Maven Build"){
-            steps{
-                sh "mvn clean install"
-            }
-        }
         stage('Code Quality Analysis'){
 //    def scannerHome = tool 'SonarScanner 4.0';
             steps{
@@ -24,14 +19,9 @@ pipeline {
               }
             }
         }
-        stage("Deploy war using Ansible"){
+        stage("Maven Build"){
             steps{
-                /*sh "pwd"
-                #sh "cd /usr/bin/ansible-ws"
-                #sh "rm -rf hello-world"
-                sh "git clone https://github.com/swetha2310/hello-world.git" */
-                sh "ls -ltrh"
-                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: './dev.inv', playbook: './copyfile.yml'
+                sh "mvn clean install"
             }
         }
         stage("Nexus Artifact"){
@@ -52,6 +42,16 @@ pipeline {
                 repository: 'maven-releases', 
                 version: '1.0.0'
            }
+        }
+        stage("Deploy war using Ansible"){
+            steps{
+                /*sh "pwd"
+                #sh "cd /usr/bin/ansible-ws"
+                #sh "rm -rf hello-world"
+                sh "git clone https://github.com/swetha2310/hello-world.git" */
+                sh "ls -ltrh"
+                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: './dev.inv', playbook: './copyfile.yml'
+            }
         }
         stage('Dependency Check'){
             steps {
