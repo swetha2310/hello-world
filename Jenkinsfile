@@ -4,12 +4,13 @@ pipeline {
         PATH = "/opt/maven/apache-maven-3.9.0/bin:$PATH"
     }
     stages {
-        stage("SCM Checkout") {
+        stage("SCM Checkout"){
             steps{
                 git credentialsId: 'git_credentials', url: 'https://github.com/swetha2310/hello-world.git', branch:'master'
             }
         }
-        stage('Code Quality Analysis') {
+        stage('Code Quality Analysis'){
+//    def scannerHome = tool 'SonarScanner 4.0';
             steps{
               withSonarQubeEnv('sonarqube-8.9.2') { 
         // If you have configured more than one global server connection, you can specify its name
