@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Docker Build'){
             steps{
-                sh "docker build . -t swetha23/helloworldmaven_0.1"
+                sh "docker build . -t swetha23/helloworldmaven_0.1:1.0.0"
             }
         }
         stage('Push to dockerHub'){
