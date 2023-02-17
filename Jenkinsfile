@@ -34,7 +34,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
                 sh "docker login -u swetha23 -p ${dockerpassword}"
                 }
-                sh "docker push swetha23/helloworldmaven_0.1"
+                sh "docker push swetha23/helloworldmaven_0.1:1.0.0"
             }
         }
         stage('Deploy to EKS'){
