@@ -24,60 +24,26 @@ pipeline {
                 sh "mvn clean install"
             }
         }
-        stage("Nexus Artifact"){
+        stage('Docker Build'){
             steps{
-                nexusArtifactUploader artifacts: [
-                    [
-                    artifactId: 'maven-project', 
-                    classifier: '', 
-                    file: '/var/lib/jenkins/workspace/Nexus-Job/webapp/target/webapp.war', 
-                    type: 'war'
-                    ]
-                ], 
-                credentialsId: 'nexus', 
-                groupId: 'com.example.maven-project', 
-                nexusUrl: '65.2.186.137:8081/', 
-                nexusVersion: 'nexus3', 
-                protocol: 'http', 
-                repository: 'maven-releases', 
-                version: '1.0.0'
-           }
-        }
-        stage("Deploy war using Ansible"){
-            steps{
-                /*sh "pwd"
-                #sh "cd /usr/bin/ansible-ws"
-                #sh "rm -rf hello-world"
-                sh "git clone https://github.com/swetha2310/hello-world.git" */
-                sh "ls -ltrh"
-                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: './dev.inv', playbook: './copyfile.yml'
+                sh "docker build . -t swetha23/helloworldmaven_0.1"
             }
         }
-        stage('Dependency Check'){
-            steps {
-                dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'DP-check'
-            }
-        }
-        stage('OWASP DAST'){
-            steps {
-                sh '''
-                docker pull owasp/zap2docker-stable
-                docker run -dt --name owasp owasp/zap2docker-stable sh
-                docker exec owasp mkdir /zap/wrk
-                docker exec owasp zap-baseline.py -t http://35.154.101.50:8080/webapp/ -x report.xml -I
-                echo $WORKSPACE
-                docker cp owasp:/zap/wrk/report.xml $WORKSPACE/report.xml
-                docker stop owasp && docker rm owasp
-                 '''
-            }
-        }
-        /*stage("Deploy code"){
+        stage('Push to dockerHub'){
             steps{
-                sshagent(['deploy_user']) {
-                    sh "scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.15.59:/opt/apache-tomcat-8.5.85/webapps"
-                    
+                withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
+                sh "docker login -u swetha23 -p ${dockerpassword}"
+                }
+                sh "docker push swetha23/helloworldmaven_0.1"
+            }
+        }
+        stage('Deploy to EKS'){
+            steps{
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                //sh "kubectl apply -f eksdep-K8s.yaml"//
+                sh " kubectl apply -f eksdep-K8s.yaml "
                 }
             }
-        }*/
+        }
     }
 }
