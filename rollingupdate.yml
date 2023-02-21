@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       app: my-app
-  statergy:
+  stratergy:
     type: RollingUpdate
     rollingUpdate:
       maxsurge: 1
