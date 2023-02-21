@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Docker Build'){
             steps{
-                sh "docker build . -t swetha23/helloworldmaven_0.1:1.0.0"
+                sh "docker build . -t swetha23/helloworldmaven_0.1:3.0.0"
             }
         }
         stage('Push to dockerHub'){
@@ -34,7 +34,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
                 sh "docker login -u swetha23 -p ${dockerpassword}"
                 }
-                sh "docker push swetha23/helloworldmaven_0.1:2.0.0"
+                sh "docker push swetha23/helloworldmaven_0.1:3.0.0"
             }
         }
         stage('Deploy to EKS'){
@@ -42,7 +42,7 @@ pipeline {
                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                 //sh "kubectl apply -f eksdep-K8s.yaml"//
                 //sh " kubectl delete deployment my-app "//
-                sh " kubectl apply -f eksdep-K8s.yaml "
+                sh " kubectl apply -f rollingupdate.yml "
                 }
             }
         }
