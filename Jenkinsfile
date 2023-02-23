@@ -29,19 +29,6 @@ pipeline {
                 sh "docker build . -t swetha23/helloworldmaven_0.1:$BUILD_NUMBER"
             }
         }
-        //stage('OWASP DAST') {
-            steps {
-                sh '''
-                docker pull owasp/zap2docker-stable
-                docker run -dt --name owasp owasp/zap2docker-stable sh
-                docker exec owasp mkdir /zap/wrk
-                docker exec owasp zap-baseline.py -t http://35.154.236.209:8080/webapp/ -x report.xml -I
-                echo $WORKSPACE
-                docker cp owasp:/zap/wrk/report.xml $WORKSPACE/report.xml
-                docker stop owasp && docker rm owasp
-                 '''
-            }
-        }//
         stage('Push to dockerHub'){
             steps{
                 withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
