@@ -54,7 +54,7 @@ pipeline {
             steps{
                 withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                 sh 'chmod +x changeTag.sh'
-			    sh './changeTag.sh $BUILD_NUMBER'
+		sh './changeTag.sh $BUILD_NUMBER'
                 //sh "kubectl apply -f eksdep-K8s.yaml"//
                 //sh " kubectl delete deployment my-app "//
                 sh " kubectl apply -f rollingupdate.yml "
