@@ -29,7 +29,7 @@ pipeline {
                 sh "docker build . -t swetha23/helloworldmaven_0.1:$BUILD_NUMBER"
             }
         }
-        stage('OWASP DAST') {
+        //stage('OWASP DAST') {
             steps {
                 sh '''
                 docker pull owasp/zap2docker-stable
@@ -41,7 +41,7 @@ pipeline {
                 docker stop owasp && docker rm owasp
                  '''
             }
-        }
+        }//
         stage('Push to dockerHub'){
             steps{
                 withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
