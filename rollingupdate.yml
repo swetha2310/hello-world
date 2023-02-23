@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: swetha23/helloworldmaven_0.1:2.0.0
+          image: swetha23/helloworldmaven_0.1:tagVersion
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
