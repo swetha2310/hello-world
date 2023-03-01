@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('git') {
             steps {
-                git branch: 'master', url: 'https://github.com/swetha2310/hello-world.git'
+                git branch: 'UAT', url: 'https://github.com/swetha2310/hello-world.git'
             }
         }
         stage('Demo') {
