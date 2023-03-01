@@ -1,3 +1,4 @@
+@Library('Shared_Library')_
 pipeline { 
     agent any
     environment{
@@ -8,6 +9,10 @@ pipeline {
             steps {
                 git branch: 'master', url: 'https://github.com/swetha2310/hello-world.git'
             }
+        }
+        stage('Demo') {
+            echo 'Hello world'
+            hello 'Swetha KS'
         }
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
