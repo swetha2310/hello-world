@@ -11,8 +11,10 @@ pipeline {
             }
         }
         stage('Demo') {
-            echo 'Hello world'
-            hello 'Swetha KS'
+            steps {
+              echo 'Hello world'
+              hello 'Swetha KS'
+            }
         }
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
