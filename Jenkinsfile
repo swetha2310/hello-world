@@ -67,7 +67,7 @@ pipeline {
                 docker pull owasp/zap2docker-stable
                 docker run -dt --name owasp owasp/zap2docker-stable sh
                 docker exec owasp mkdir /zap/wrk
-                docker exec owasp zap-baseline.py -t http://65.0.180.134:8080/webapp/ -x report.xml -I
+                docker exec owasp zap-baseline.py -t http://3.110.40.212:8080/webapp/ -x report.xml -I
                 echo $WORKSPACE
                 docker cp owasp:/zap/wrk/report.xml $WORKSPACE/report.xml
                 docker stop owasp && docker rm owasp
