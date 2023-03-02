@@ -10,16 +10,16 @@ pipeline {
             steps{
                 script{
                     sh "echo $USER"
-		    Build('Install')
+		    build('Install')
                 }
             }
         }
         stage('SonarQube analysis') {
             steps{
-	    	script{
-                    withSonarQubeEnv('sonarqube-8.9.2') { 
-                    sonarQube.sonarAnalysis('Maven Project','http://13.234.21.148:9000','84de1ff732b9fb58b43cda5d5b0025a5329a8474')
-                    }
+                withSonarQubeEnv('sonarqube-8.9.2') { 
+	    	  script{
+                  sonarQube.sonarAnalysis('Maven Project','http://13.234.21.148:9000','84de1ff732b9fb58b43cda5d5b0025a5329a8474')
+                  }
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
                 script{
                     withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                     sh 'chmod +x changeTag.sh'
-		    sh './changeTag.sh $BUILD_NUMBER'
+		                sh './changeTag.sh $BUILD_NUMBER'
                     //sh "kubectl apply -f eksdep-K8s.yaml"//
                     //sh " kubectl delete deployment my-app "//
                     sh " kubectl apply -f rollingupdate.yml "
