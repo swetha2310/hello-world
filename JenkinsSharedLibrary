@@ -2,9 +2,9 @@
 
 pipeline{
 	
-        tools {
+        /*tools {
         maven "maven3.9.0"
-    }
+    }*/
 	agent any
     stages{
         stage('SonarQube analysis') {
