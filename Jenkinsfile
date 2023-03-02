@@ -1,4 +1,3 @@
-@Library('Shared_Library')_
 pipeline { 
     agent any
     environment{
@@ -8,12 +7,6 @@ pipeline {
         stage('git') {
             steps {
                 git branch: 'UAT', url: 'https://github.com/swetha2310/hello-world.git'
-            }
-        }
-        stage('Demo') {
-            steps {
-              echo 'Hello world'
-              hello 'Swetha KS'
             }
         }
         stage('SonarQube analysis') {
