@@ -8,19 +8,22 @@ pipeline {
     stages{
         stage('SonarQube analysis') {
             steps{
-	    	script{
-                withSonarQubeEnv('sonarqube-8.9.2') { 
-                sonarQube.sonarAnalysis('Maven Project','http://13.234.21.148:9000','84de1ff732b9fb58b43cda5d5b0025a5329a8474')
+	    	    script{
+                    withSonarQubeEnv('sonarqube-8.9.2') { 
+                    sonarQube.sonarAnalysis('Maven Project','http://13.234.21.148:9000','84de1ff732b9fb58b43cda5d5b0025a5329a8474')
+                    }
                 }
-		}
             }
        }
         stage('Maven Build'){
             steps{
-                sh "echo $USER"
-		    	build('Install')
+                script{
+                    sh "echo $USER"
+		    	    build('Install')
+             
+                 }
             }
-         }
+        }
         /*stage('Dependency Check') {
             steps {
                 dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'DP-check'
@@ -28,25 +31,31 @@ pipeline {
         }*/
         stage('Docker Build'){
             steps{
-                sh "docker build . -t swetha23/helloworldmaven_0.1:$BUILD_NUMBER"
+                script{
+                    sh "docker build . -t swetha23/helloworldmaven_0.1:$BUILD_NUMBER"
+                }
             }
         }
         stage('Push to dockerHub'){
             steps{
-                withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
-                sh "docker login -u swetha23 -p ${dockerpassword}"
+                script{
+                    withCredentials([string(credentialsId: 'swetha23', variable: 'dockerpassword')]) {
+                    sh "docker login -u swetha23 -p ${dockerpassword}"
+                    }
+                    sh "docker push swetha23/helloworldmaven_0.1:$BUILD_NUMBER"
                 }
-                sh "docker push swetha23/helloworldmaven_0.1:$BUILD_NUMBER"
             }
         }
         stage('Deploy to EKS'){
             steps{
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                sh 'chmod +x changeTag.sh'
-		sh './changeTag.sh $BUILD_NUMBER'
-                //sh "kubectl apply -f eksdep-K8s.yaml"//
-                //sh " kubectl delete deployment my-app "//
-                sh " kubectl apply -f rollingupdate.yml "
+                script{
+                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                    sh 'chmod +x changeTag.sh'
+		            sh './changeTag.sh $BUILD_NUMBER'
+                    //sh "kubectl apply -f eksdep-K8s.yaml"//
+                    //sh " kubectl delete deployment my-app "//
+                    sh " kubectl apply -f rollingupdate.yml "
+                    }
                 }
             }
         }
