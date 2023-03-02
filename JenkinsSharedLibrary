@@ -11,7 +11,7 @@ pipeline{
             steps{
 	    	script{
                 withSonarQubeEnv('sonarqube-8.9.2') { 
-                SonarQube.sonarAnalysis('Maven Project','http://13.234.21.148:9000','84de1ff732b9fb58b43cda5d5b0025a5329a8474')
+                SonarQube.sonarAnalysis("Maven Project",'http://13.234.21.148:9000','84de1ff732b9fb58b43cda5d5b0025a5329a8474')
                 }
 		}
             }
