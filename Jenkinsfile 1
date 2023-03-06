@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    environment {
+        PATH = "/opt/maven/apache-maven-3.9.0/bin:$PATH"
+    }
+    stages {
+        stage("clone code"){
+            steps{
+                git credentialsId: 'git_credentials', url: 'https://github.com/swetha2310/hello-world.git', branch:'master'
+            }
+        }
+        stage("build code"){
+            steps{
+                sh "mvn clean install"
+            }
+        }
+        stage("Execute ansibleplaybook"){
+            steps{
+                sh "pwd"
+                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/hello-world/dev.inv', playbook: '/hello-world/copyfile.yml'
+            }
+        }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+            steps{
+              withSonarQubeEnv('sonarqube-8.9.2') { 
+        // If you have configured more than one global server connection, you can specify its name
+//           sh "${scannerHome}/bin/sonar-scanner"
+             sh "mvn sonar:sonar"
+              }
+            }
+        }
+        /*stage("Deploy code"){
+            steps{
+                sshagent(['deploy_user']) {
+                    sh "scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.15.59:/opt/apache-tomcat-8.5.85/webapps"
+                    
+                }
+            }
+        }*/
+    }
+}
