@@ -5,7 +5,7 @@ resource "aws_instance" "myFirstinstance"{
  ami = "ami-09ba48996007c8b50"
  count = 1
  key_name ="jenkins"
- instance_type = "t2.small"
+ instance_type = "t2.micro"
  security_groups = ["security_jenkins_port"]
  tags = {
   Name = "jenkins_instance"
