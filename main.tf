@@ -8,7 +8,8 @@ resource "aws_instance" "myFirstinstance"{
  instance_type = "t2.micro"
  security_groups = ["security_jenkins_port"]
  tags = {
-  Name = "Terraform_Instance"
+  Name = "Terraform_Ec2"
+  Environment = "dev"
  }
 }
 
