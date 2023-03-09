@@ -1,0 +1,8 @@
+---
+-       hosts: [tomcat]
+        become: true
+        tasks: 
+        - name: install the latest version of Docker
+        yum:
+        name: docker
+        state: latest
