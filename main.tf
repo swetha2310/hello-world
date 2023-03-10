@@ -14,7 +14,7 @@ resource "aws_instance" "myFirstinstance"{
 }
 
 resource "aws_security_group" "security_jenkins_port" {
-  name        = "security_jenkins_port"
+  name        = "security_jenkins"
   description = "security group for jenkins"
 
   ingress {
@@ -40,6 +40,6 @@ resource "aws_security_group" "security_jenkins_port" {
   }
 
   tags= {
-    Name = "security_jenkins_port"
+    Name = "security_jenkins"
   }
 }
