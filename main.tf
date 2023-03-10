@@ -1,6 +1,6 @@
 provider "aws" {
- region = "ap-south-1"
-}
+    region = "ap-south-1"
+   }
 resource "aws_instance" "myFirstinstance"{
  ami = "ami-09ba48996007c8b50"
  count = 1
@@ -14,7 +14,7 @@ resource "aws_instance" "myFirstinstance"{
 }
 
 resource "aws_security_group" "security_jenkins_port" {
-  name        = "security_jenkins"
+  name        = "security_jenkins_port"
   description = "security group for jenkins"
 
   ingress {
@@ -40,6 +40,6 @@ resource "aws_security_group" "security_jenkins_port" {
   }
 
   tags= {
-    Name = "security_jenkins"
+    Name = "security_jenkins_port"
   }
 }
