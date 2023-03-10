@@ -14,7 +14,7 @@
         dest: /opt
         remote_src: yes
     - name: installing java
-      apt:
+      yum:
         name: default-jdk
         state: present
     - name: copy jar file
