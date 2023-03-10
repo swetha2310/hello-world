@@ -15,7 +15,7 @@
         remote_src: yes
     - name: installing java
       yum:
-        name: default-jdk
+        name: yum -y install java-1.8.0-openjdk
         state: present
     - name: copy jar file
       copy:
