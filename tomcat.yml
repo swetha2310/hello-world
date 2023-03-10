@@ -1,0 +1,30 @@
+---
+- hosts: all
+  ignore_unreachable: true
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: downloading tomcat
+      get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.6/bin/apache-tomcat-10.1.6.tar.gz
+        dest: /opt
+    - name: extracting tomcat
+      unarchive:
+        src: /opt/apache-tomcat-10.1.6.tar.gz
+        dest: /opt
+        remote_src: yes
+    - name: installing java
+      apt:
+        name: default-jdk
+        state: present
+    - name: copy jar file
+      copy:
+        src: ./webapp/target/webapp.war
+        dest: /opt/apache-tomcat-10.1.6/webapps/
+      notify:
+        - restart tomcat
+  handlers:
+    - name: restart tomcat
+      service:
+        name: tomcat
+        state: restarted
