@@ -15,7 +15,7 @@
         remote_src: yes
     - name: installing java
       yum:
-        name: yum -y install java-1.8.0-openjdk
+        name: java-11-amazon-corretto
         state: present
     - name: copy jar file
       copy:
