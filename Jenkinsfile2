@@ -52,8 +52,7 @@ pipeline {
         }*/
         stage("Build status in Jenkins"){
             steps{
-                BUILD_RESULT=${BUILD_STATUS}
-                echo ${BUILD_RESULT}
+                echo "Build status is ${currentBuild.currentResult}"
             }
         }
     }
