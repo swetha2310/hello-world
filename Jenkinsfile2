@@ -50,5 +50,11 @@ pipeline {
                 }
             }
         }*/
+        stage("Build status in Jenkins"){
+            steps{
+                BUILD_STATUS=${BUILD_STATUS}
+                echo ${BUILD_STATUS}
+            }
+        }
     }
 }
