@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    environment {
+        PATH = "/opt/maven/apache-maven-3.9.0/bin:$PATH"
+    }
+    stages {
+        stage("Clone Code"){
+            steps{
+                git credentialsId: 'git_credentials', url: 'https://github.com/swetha2310/hello-world.git', branch:'master'
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean install"
+            }
+        }
+        stage("Publish to Nexus"){
+            steps{
+                nexusArtifactUploader artifacts: [[artifactId: 'maven-project', classifier: '', file: '/var/lib/jenkins/workspace/Ansible-Demo/webapp/target/webapp.war', type: 'war']], credentialsId: 'Nexus', groupId: 'com.example.maven-project', nexusUrl: '65.2.186.137:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
+            }
+        }
+        stage ("Terraform init") {
+            steps {
+                sh ('terraform init') 
+            }
+        }
+        stage('Terraform plan') {
+            steps {
+                sh label: '', script: 'terraform plan -lock=false'
+            }
+        }
+        stage ("Terraform Action") {
+            steps {
+                echo "Terraform action is --> ${Action}"
+                sh ('terraform ${Action} --auto-approve') 
+           }
+        }
+        stage("Deploy Using Ansible"){
+            steps{
+                sh "pwd"
+                ansiblePlaybook credentialsId: 'ansible_server', disableHostKeyChecking: true, installation: 'ansible', inventory: 'aws_ec2.yaml', playbook: 'tomcat.yml'
+                //sh 'ansible aws_ec2 -i aws_ec2.yaml -m ping --ssh-common-args="-o StrictHostKeyChecking=no" -u ec2-user --private-key=/var/lib/jenkins/ansible_ec2.pem'
+                //ansiblePlaybook credentialsId: 'deploy_user', disableHostKeyChecking: true, installation: 'ansible', inventory: 'dev.inv', playbook: 'copyfile.yml'
+            }
+        }
+        /*stage("Deploy code"){
+            steps{
+                sshagent(['deploy_user']) {
+                sh "scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.15.59:/opt/apache-tomcat-8.5.85/webapps"
+                }
+            }
+        }*/
+    }
+}
