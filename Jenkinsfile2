@@ -52,11 +52,12 @@ pipeline {
         }*/
         stage("Build status in Jenkins"){
             steps{
-                
-                status = "${currentBuild.currentResult}"
-                echo "${status}"
+            script{
+            if (${currentBuild.currentResult} == 'SUCCESS')
+            {
                 echo "Build status is ${currentBuild.currentResult}"
-                
+             }
+             }
             }
         }
     }
