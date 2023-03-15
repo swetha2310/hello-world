@@ -50,5 +50,19 @@ pipeline {
                 }
             }
         }*/
+        stage("Check for Terraform Destroy"){
+            steps{
+                script{
+                if (currentBuild.currentResult == 'SUCCESS')
+                {
+                echo "Build status ${currentBuild.currentResult}"
+                }
+                else
+                {
+                sh ('terraform destroy --auto-approve')
+                }
+                }
+            }
+        }
     }
 }
