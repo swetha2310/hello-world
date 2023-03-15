@@ -52,11 +52,11 @@ pipeline {
         }*/
         stage("Build status in Jenkins"){
             steps{
-                scrpit{
+                
                 status = "${currentBuild.currentResult}"
                 echo "${status}"
                 echo "Build status is ${currentBuild.currentResult}"
-                }
+                
             }
         }
     }
