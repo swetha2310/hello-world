@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-v2
+  name: my-app-v4
   labels:
     app: my-app
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: swetha23/helloworldmaven_0.1:latest
+        image: swetha23/helloworldmaven_0.1:2.0.0
         ports:
         - name: http
           containerPort: 8080
