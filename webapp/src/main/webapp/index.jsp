@@ -1,5 +1,5 @@
 <h1> Hello Swetha </h1>
-<h2> Welcome to LTIM </h2>
+<h2> Welcome to LTIMindtree </h2>
 
 
 
